@@ -10,14 +10,14 @@ module MetaInspector
       end
 
       def best_title
-        @best_title = meta['og:title'] if @main_parser.host =~ /\.youtube\.com$/
+        @best_title = meta['og:title'] if meta['og:title']
         @best_title ||= find_best_title
       end
       
       # Returns the parsed site name title, from the contents of the several likely tags
       # within the <head> section.
       def best_site_name
-        @best_site_name = meta['og:site_name'] if @main_parser.host =~ /\.youtube\.com$/
+        @best_site_name = meta['og:site_name'] if meta['og:site_name']
         @best_site_name ||= find_best_site_name 
       end
 
