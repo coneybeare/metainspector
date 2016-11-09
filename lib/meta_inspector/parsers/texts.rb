@@ -48,10 +48,10 @@ module MetaInspector
             meta['og:site_name'],
             parsed.css('h1').first
         ]
-        find_best_candidate(candidates)
+        find_best_candidate(candidates, sort_order: :shortest)
       end
       
-      def find_best_candidate(candidates)
+      def find_best_candidate(candidates, sort_order: :longest)
         candidates.flatten!
         candidates.compact!
         candidates.map! { |c| (c.respond_to? :inner_text) ? c.inner_text : c }
@@ -59,7 +59,7 @@ module MetaInspector
         return nil if candidates.empty?
         candidates.map! { |c| c.gsub(/\s+/, ' ') }
         candidates.uniq!
-        candidates.sort_by! { |t| -t.length }
+        candidates.sort_by! { |t| (sort_order == :longest ? -1 : 1) * t.length }
         candidates.first
       end
 
